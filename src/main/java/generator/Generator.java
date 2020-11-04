@@ -1,11 +1,9 @@
 package generator;
 
 import character.Characteristics;
+import generator.definer.ModifierDefiner;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,11 +14,22 @@ public class Generator {
         Characteristics characteristics = new Characteristics();
 
         characteristics.setStrength(getCharacteristicValue());
+        characteristics.setStrengthModifier(ModifierDefiner.define(characteristics.getStrength()));
+
         characteristics.setIntelligence(getCharacteristicValue());
+        characteristics.setIntelligenceModifier(ModifierDefiner.define(characteristics.getIntelligence()));
+
         characteristics.setWisdom(getCharacteristicValue());
+        characteristics.setWisdomModifier(ModifierDefiner.define(characteristics.getWisdom()));
+
         characteristics.setDexterity(getCharacteristicValue());
+        characteristics.setDexterityModifier(ModifierDefiner.define(characteristics.getDexterity()));
+
         characteristics.setConstitution(getCharacteristicValue());
+        characteristics.setConstitutionModifier(ModifierDefiner.define(characteristics.getConstitution()));
+
         characteristics.setCharisma(getCharacteristicValue());
+        characteristics.setCharismaModifier(ModifierDefiner.define(characteristics.getCharisma()));
 
         return characteristics;
     }

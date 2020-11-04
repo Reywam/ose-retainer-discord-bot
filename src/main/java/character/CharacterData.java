@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 public class CharacterData {
     private Class characterClass = ClassDefiner.define();
     private Characteristics characteristics = new Generator().getCharacteristics();
-    // TODO add con modifier value
     private int hitPoints = HitPointsDefiner.defineHP(characterClass, characteristics);
 }
