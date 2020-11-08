@@ -1,30 +1,30 @@
 package generator.definer;
 
-import character.Class;
+import character.classes.*;
 import generator.DiceRoller;
 
 public class ClassDefiner {
     private static final int CHARACTER_CLASSES_COUNT = 7;
     private static DiceRoller roller = new DiceRoller();
 
-    public static Class define() {
+    public static CharacterClass define() {
         int random = roller.dN(CHARACTER_CLASSES_COUNT);
         switch (random) {
             case 1:
-                return Class.WARRIOR;
+                return new Fighter();
             case 2:
-                return Class.MAGE;
+                return new MagicUser();
             case 3:
-                return Class.CLERIC;
+                return new Cleric();
             case 4:
-                return Class.THIEF;
+                return new Thief();
             case 5:
-                return Class.DWARF;
+                return new Dwarf();
             case 6:
-                return Class.ELF;
+                return new Elf();
             case 7:
-                return Class.HALFLING;
-            default: return  Class.WARRIOR;
+                return new Halfling();
+            default: return new Fighter();
         }
     }
 }
