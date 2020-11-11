@@ -1,5 +1,7 @@
 import character.CharacterData;
+import character.EquipmentDataParser;
 import character.classes.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -8,12 +10,11 @@ import discord4j.core.object.entity.channel.MessageChannel;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 public class Application {
-
-
-
     public static void main(String[] args) throws IOException {
         String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         String appConfigPath = rootPath + "app.properties";
@@ -25,11 +26,20 @@ public class Application {
         final DiscordClient client = DiscordClient.create(token);
         final GatewayDiscordClient gateway = client.login().block();
 
+        EquipmentDataParser parser = new EquipmentDataParser();
+
+
         gateway.on(MessageCreateEvent.class).subscribe(event -> {
             final Message message = event.getMessage();
             if ("!get".equals(message.getContent())) {
                 final MessageChannel channel = message.getChannel().block();
                 CharacterData characterData = new CharacterData();
+                try {
+                    HashMap<String, List<EquipmentDataParser.Item>> equipment = parser.generateEquipment(characterData);
+                    characterData.setAdventureEquipment(equipment);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 channel.createEmbed(spec ->
                         spec.setTitle("Character Name")
                         .addField("Hit points", Integer.toString(characterData.getHitPoints()), true)

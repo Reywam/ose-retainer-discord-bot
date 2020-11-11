@@ -1,15 +1,135 @@
 {
   "common": [
-    {"name": "Backpack","cost": 5},
-    {"name": "Iron spikes (12)","cost" : 1},
-    {"name": "Lantern","cost": 10},
-    {"name": "Oil (1 flask)","cost": 2},
-    {"name": "Rations (iron, 7 days)","cost": 15},
-    {"name": "Rope (50’)","cost": 1},
-    {"name": "Sack (small)","cost": 1},
-    {"name": "Waterskin","cost": 1}
-  ]
-  ,
+    {"name": "Backpack"},
+    {"name": "Iron spikes (12)"},
+    {"name": "Lantern"},
+    {"name": "Oil (1 flask)"},
+    {"name": "Rations (iron, 7 days)"},
+    {"name": "Rope (50’)"},
+    {"name": "Sack (small)"},
+    {"name": "Waterskin"}
+  ],
+
+  "armor": [
+    {
+      "name": "Leather",
+      "properties" : ["light"]
+    },
+    {
+      "name": "Chainmail",
+      "properties" : ["medium"]
+    },
+    {
+      "name": "Plate mail",
+      "properties" : ["heavy"]
+    },
+    {
+      "name": "Shield",
+      "properties" : ["additional"]
+    }
+  ],
+
+  "weapons": [
+    {
+      "name": "Battle axe",
+      "properties": ["melee", "slow", "two-handed"]
+    },
+    {
+      "name": "Club",
+      "properties": ["melee", "blunt"]
+    },
+    {
+      "name": "Crossbow",
+      "properties": ["missle", "reload", "slow", "two-handed"]
+    },
+    {
+      "name": "Dagger",
+      "properties": ["melee", "missile"]
+    },
+    {
+      "name": "Hand axe",
+      "properties": ["melee", "missile"]
+    },
+    {
+      "name": "Javelin",
+      "properties": ["missile"]
+    },
+    {
+      "name": "Lance",
+      "properties": ["melee", "charge"]
+    },
+    {
+      "name": "Long bow",
+      "properties": ["missile", "two-handed"]
+    },
+    {
+      "name": "Mace",
+      "properties": ["melee", "blunt"]
+    },
+    {
+      "name": "Polearm",
+      "properties": ["melee", "brace", "slow", "two-handed"]
+    },
+    {
+      "name": "Short bow",
+      "properties": ["missile", "two-handed"]
+    },
+    {
+      "name": "Short sword",
+      "properties": ["melee"]
+    },
+    {
+      "name": "Silver dagger",
+      "properties": ["melee", "missile"]
+    },
+    {
+      "name": "Sling",
+      "properties": ["blunt", "missile"]
+    },
+    {
+      "name": "Spear",
+      "properties": ["brace","melee", "missile"]
+    },
+    {
+      "name": "Staff",
+      "properties": ["melee", "blunt", "slow", "two-handed"]
+    },
+    {
+      "name": "Sword",
+      "properties": ["melee"]
+    },
+    {
+      "name": "Two-handed sword",
+      "properties": ["melee", "slow", "two-handed"]
+    },
+    {
+      "name": "Warhammer",
+      "properties": ["blunt", "melee"]
+    }
+  ],
+
+  "fighter" : [
+
+  ],
+  "cleric": [
+
+  ],
+  "thief": [
+
+  ],
+  "magic-user": [
+
+  ],
+  "halfling": [
+
+  ],
+  "elf": [
+
+  ],
+  "dwarf": [
+
+  ],
+
   "other" : [
     {"Crowbar" : 10},
     {"Garlic" : 5},
