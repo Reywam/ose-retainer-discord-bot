@@ -21,7 +21,7 @@ public class CharacterData {
 
     private CharacterClass characterClass =  ClassDefiner.define();
     private Characteristics characteristics = new Generator().getCharacteristics();
-    private HashMap<String, List<EquipmentDataParser.Item>> adventureEquipment = new HashMap<>();
+    private HashMap<String, String> adventureEquipment = new HashMap<>();
     private int hitPoints = roller.dN(characterClass.getHitDice()) + characteristics.getConstitutionModifier();
 
     @Override

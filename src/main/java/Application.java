@@ -35,7 +35,7 @@ public class Application {
                 final MessageChannel channel = message.getChannel().block();
                 CharacterData characterData = new CharacterData();
                 try {
-                    HashMap<String, List<EquipmentDataParser.Item>> equipment = parser.generateEquipment(characterData);
+                    HashMap<String, String> equipment = parser.generateEquipment(characterData);
                     characterData.setAdventureEquipment(equipment);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -49,7 +49,9 @@ public class Application {
                         .addField("Characteristics", characterData.getCharacteristics().toString(), true)
                         .addField("Saving throws", characterData.getCharacterClass().getSavingThrows().toString(), true)
                         .addField("Abilities", characterData.getCharacterClass().getAbilities().toString(), true)
-                        .addField("Equipment", characterData.getAdventureEquipment().toString(), false)
+                        .addField("Equipment", characterData.getAdventureEquipment().get("common"), false)
+                        .addField("Armor", characterData.getAdventureEquipment().get("armor"), false)
+                        .addField("Weapons", characterData.getAdventureEquipment().get("weapons"), false)
                 ).block();
             }
         });

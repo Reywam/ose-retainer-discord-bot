@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class EquipmentDataParser {
     private final ObjectMapper mapper = new ObjectMapper();
@@ -90,7 +91,13 @@ public class EquipmentDataParser {
         }
     }
 
-    public HashMap<String, List<Item>> generateEquipment(CharacterData data) throws IOException {
+    private String test(String category, HashMap<String, List<Item>> items) {
+        StringJoiner joiner = new StringJoiner(" ");
+        items.get(category).forEach(item -> joiner.add(item.name));
+        return joiner.toString();
+    }
+
+    public HashMap<String, String> generateEquipment(CharacterData data) throws IOException {
         JsonNode equipment = parse();
         JsonNode weapons = equipment.get("weapons");
         JsonNode armor = equipment.get("armor");
@@ -114,7 +121,17 @@ public class EquipmentDataParser {
             items.get("armor").add(new Item(item.asText()));
         });
 
-        return items;
+
+        String commonstr = test("common", items);
+        String weaponstr = test("weapons", items);
+        String armorstr = test("armor", items);
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("common", commonstr);
+        map.put("weapons", weaponstr);
+        map.put("armor", armorstr);
+
+        return map;
     }
 
 
