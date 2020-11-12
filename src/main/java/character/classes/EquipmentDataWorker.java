@@ -63,6 +63,10 @@ public class EquipmentDataWorker {
         return listOfItems;
     }
 
+    public static JsonNode getLightArmor(JsonNode equipment) {
+        return getArmorOfSomeType(Arrays.asList("light"), equipment);
+    }
+
     public static JsonNode getArmorOfSomeType(List<String> types, JsonNode equipment) {
         JsonNode armor = equipment.get("armor");
 

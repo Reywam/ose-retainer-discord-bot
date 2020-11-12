@@ -1,7 +1,8 @@
 package character.classes.strategies;
 
+import character.classes.EquipmentDataWorker;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ThiefEquipmentStrategy implements EquipmentStrategy {
     @Override
-    public ObjectNode getEquipment(JsonNode equipment) {
+    public JsonNode getEquipment(JsonNode equipment) {
         // TODO Get one one-handed melee weapon
-        // TODO Get medium armor
+        ArrayNode weapons = EquipmentDataWorker.getSimpleWeapons(equipment);
+        JsonNode armor = EquipmentDataWorker.getLightArmor(equipment);
         // TODO Get thief tools
-        System.out.println("Thief equipment strategy");
-        return null;
+        return EquipmentDataWorker.aggregateEquipment(weapons, armor);
     }
 }
