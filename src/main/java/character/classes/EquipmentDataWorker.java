@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,6 +18,22 @@ public class EquipmentDataWorker {
 
     private static final DiceRoller roller = new DiceRoller();
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static JsonNode getSomeArmor(JsonNode equipment) {
+        return getArmorOfSomeType(Arrays.asList("light", "medium", "heavy"), equipment);
+    }
+
+    public static ArrayNode getSimpleWeapons(JsonNode equipment) {
+        return getMeleeWeapon(equipment).addAll(getMissileWeapon(equipment));
+    }
+
+    public static ArrayNode getMeleeWeapon(JsonNode equipment) {
+        return getNWeaponsOfType(1, "melee", equipment);
+    }
+
+    public static ArrayNode getMissileWeapon(JsonNode equipment) {
+        return getNWeaponsOfType(1, "missile", equipment);
+    }
 
     public static JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor/*, JsonNode common*/) {
         ObjectNode equipment = mapper.createObjectNode();

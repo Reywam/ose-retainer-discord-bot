@@ -16,8 +16,8 @@ public class FighterEquipmentStrategy implements EquipmentStrategy {
     @Override
     public JsonNode getEquipment(JsonNode equipment) {
         ArrayNode meleeWeapons = EquipmentDataWorker.getNWeaponsOfType(2, "melee", equipment);
-        ArrayNode missileWeapons = EquipmentDataWorker.getNWeaponsOfType(1, "missile", equipment);
-        ArrayNode weapons = mapper.createArrayNode().addAll(meleeWeapons).addAll(missileWeapons);
+        ArrayNode missileWeapons = EquipmentDataWorker.getMissileWeapon(equipment);
+        ArrayNode weapons = meleeWeapons.addAll(missileWeapons);
         JsonNode armor = EquipmentDataWorker.getArmorOfSomeType(Arrays.asList("medium", "heavy"), equipment);
 
         // TODO Get shield if have not two-handed weapon

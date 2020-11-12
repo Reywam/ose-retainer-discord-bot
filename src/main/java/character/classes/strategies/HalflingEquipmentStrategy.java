@@ -1,7 +1,8 @@
 package character.classes.strategies;
 
+import character.classes.EquipmentDataWorker;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HalflingEquipmentStrategy implements EquipmentStrategy {
     @Override
-    public ObjectNode getEquipment(JsonNode equipment) {
+    public JsonNode getEquipment(JsonNode equipment) {
         // TODO I dont know
-        System.out.println("Halfling equipment strategy");
-        return null;
+        ArrayNode weapons = EquipmentDataWorker.getSimpleWeapons(equipment);
+        JsonNode armor = EquipmentDataWorker.getSomeArmor(equipment);
+        return EquipmentDataWorker.aggregateEquipment(weapons, armor);
     }
 }
