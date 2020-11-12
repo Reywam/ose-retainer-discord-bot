@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @NoArgsConstructor
 @Data
@@ -18,6 +20,12 @@ public class EquipmentDataWorker {
 
     private static final DiceRoller roller = new DiceRoller();
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static JsonNode getDagger(JsonNode equipment) {
+        List<JsonNode> meleeWeapons = getItemsOfType("melee", equipment.get("weapons"));
+        List<JsonNode> dagger = meleeWeapons.stream().filter(item -> item.get("name").asText().equals("Dagger")).collect(Collectors.toList());
+        return dagger.get(0);
+    }
 
     public static JsonNode getSomeArmor(JsonNode equipment) {
         return getArmorOfSomeType(Arrays.asList("light", "medium", "heavy"), equipment);

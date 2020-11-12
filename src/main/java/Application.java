@@ -35,7 +35,7 @@ public class Application {
                 final MessageChannel channel = message.getChannel().block();
                 CharacterData characterData = new CharacterData();
                 try {
-                    characterData.setCharacterClass(new Fighter());
+                    characterData.setCharacterClass(new MagicUser());
                     HashMap<String, String> equipment = parser.generateEquipment(characterData);
                     characterData.setAdventureEquipment(equipment);
                 } catch (IOException e) {

@@ -1,13 +1,22 @@
 {
   "common": [
-    {"name": "Backpack"},
-    {"name": "Iron spikes (12)"},
-    {"name": "Lantern"},
-    {"name": "Oil (1 flask)"},
-    {"name": "Rations (iron, 7 days)"},
-    {"name": "Rope (50’)"},
-    {"name": "Sack (small)"},
-    {"name": "Waterskin"}
+    {"name": "Backpack",
+      "properties": ["common"]
+    },
+    {"name": "Iron spikes (12)",
+      "properties": ["common"]},
+    {"name": "Lantern",
+      "properties": ["common"]},
+    {"name": "Oil (1 flask)",
+      "properties": ["common"]},
+    {"name": "Rations (iron, 7 days)",
+      "properties": ["common"]},
+    {"name": "Rope (50’)",
+      "properties": ["common"]},
+    {"name": "Sack (small)",
+      "properties": ["common"]},
+    {"name": "Waterskin",
+      "properties": ["common"]}
   ],
 
   "armor": [

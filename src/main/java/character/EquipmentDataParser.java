@@ -72,13 +72,13 @@ public class EquipmentDataParser {
         items.put("armor", new ArrayList<>());
         items.put("common", new ArrayList<>());
 
-        common.forEach(item -> items.get("common").add(new Item(item.get("name").asText())));
+        /*common.forEach(item -> items.get("common").add(new Item(item.get("name").asText())));
         characterEquipment.get("Weapons").get("items").forEach(item -> {
             items.get("weapons").add(new Item(item.get("name").asText()));
         });
         characterEquipment.get("Armor").get("items").forEach(item -> {
             items.get("armor").add(new Item(item.asText()));
-        });
+        });*/
         String commonstr = test("common", items);
         String weaponstr = test("weapons", items);
         String armorstr = test("armor", items);
