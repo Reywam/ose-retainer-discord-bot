@@ -3,6 +3,7 @@ package character.classes;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import generator.DiceRoller;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,16 @@ public class EquipmentDataWorker {
 
     private static final DiceRoller roller = new DiceRoller();
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor/*, JsonNode common*/) {
+        ObjectNode equipment = mapper.createObjectNode();
+
+        equipment.set("Weapons", weapons);
+        equipment.set("Armor", armor);
+        /*equipment.set("Common", common);*/
+
+        return equipment;
+    }
 
     public static ArrayNode getNWeaponsOfType(int countOfWeapons, String type, JsonNode equipment) {
         JsonNode weapons = equipment.get("weapons");

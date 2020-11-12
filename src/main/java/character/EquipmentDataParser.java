@@ -65,7 +65,7 @@ public class EquipmentDataParser {
         JsonNode common = equipment.get("common");
 
         EquipmentStrategy strategy = strategies.get(data.getCharacterClass().getClass());
-        ObjectNode characterEquipment = strategy.getEquipment(equipment);
+        JsonNode characterEquipment = strategy.getEquipment(equipment);
 
         HashMap<String, List<Item>> items = new HashMap<>();
         items.put("weapons", new ArrayList<>());
