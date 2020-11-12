@@ -1,6 +1,7 @@
 package character;
 
-import character.classes.CharacterClass;
+import character.classes.*;
+import character.classes.strategies.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,72 +12,32 @@ import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EquipmentDataParser {
+
+    private final Map<Class, EquipmentStrategy> strategies = new HashMap<Class, EquipmentStrategy>() {
+        {
+            put(Fighter.class, new FighterEquipmentStrategy());
+            put(Cleric.class, new ClericEquipmentStrategy());
+            put(MagicUser.class, new MagicUserEquipmentStrategy());
+            put(Thief.class, new ThiefEquipmentStrategy());
+            put(Halfling.class, new HalflingEquipmentStrategy());
+            put(Dwarf.class, new DwarfEquipmentStrategy());
+            put(Elf.class, new ElfEquipmentStrategy());
+        }
+    };
+
+
     private final ObjectMapper mapper = new ObjectMapper();
     private final DiceRoller roller = new DiceRoller();
     private JsonNode parse() throws IOException {
         InputStream is = getClass().getClassLoader().getResourceAsStream("equipment.json");
         JsonNode equipment = mapper.readTree(is);
 
-
         return equipment;
-    }
-
-    private List<JsonNode> getItemsOfType(String type, JsonNode items) {
-        List<JsonNode> weaponsOfType = new ArrayList<>();
-        items.forEach(weapon -> {
-            JsonNode properties = weapon.get("properties");
-            properties.forEach(property -> {
-                if(property.asText().equals(type)) {
-                    weaponsOfType.add(weapon);
-                }
-            });
-        });
-        return weaponsOfType;
-    }
-
-    private JsonNode defineWeapons(CharacterData data, JsonNode weapons) {
-        CharacterClass characterClass = data.getCharacterClass();
-        ObjectNode characterWeapons = mapper.createObjectNode();
-
-        List<JsonNode> melee = getItemsOfType("melee", weapons);
-        List<JsonNode> blunt = getItemsOfType("blunt", weapons);
-        List<JsonNode> missile = getItemsOfType("missile", weapons);
-
-        //if(characterClass.getClass().getSimpleName().equals(Fighter.class.getSimpleName())) {
-            int firstWeapon = roller.dN(melee.size() - 1);
-            int secondWeapon = roller.dN(melee.size() - 1);
-            int thirdWeapon = roller.dN(missile.size() - 1);
-
-            characterWeapons.set("items", mapper.createArrayNode()
-                    .add(melee.get(firstWeapon))
-                    .add(melee.get(secondWeapon))
-                    .add(missile.get(thirdWeapon)));
-        //}
-
-        return characterWeapons;
-    }
-
-    private JsonNode defineArmor(CharacterData data, JsonNode armor) {
-        ObjectNode characterWeapons = mapper.createObjectNode();
-
-        List<JsonNode> medium = getItemsOfType("medium", armor);
-        List<JsonNode> heavy = getItemsOfType("heavy", armor);
-
-        int armorIndex = roller.dN(2);
-        if(armorIndex == 1) {
-            characterWeapons.set("items", medium.get(0));
-        }
-        else {
-            characterWeapons.set("items", heavy.get(0));
-        }
-
-        return characterWeapons;
     }
 
     @Data
@@ -103,10 +64,8 @@ public class EquipmentDataParser {
         JsonNode armor = equipment.get("armor");
         JsonNode common = equipment.get("common");
 
-        ObjectNode characterEquipment = mapper.createObjectNode();
-        characterEquipment.set("Common items", common);
-        characterEquipment.set("Weapons", defineWeapons(data, weapons));
-        characterEquipment.set("Armor", defineArmor(data, armor));
+        EquipmentStrategy strategy = strategies.get(data.getCharacterClass().getClass());
+        ObjectNode characterEquipment = strategy.getEquipment(equipment);
 
         HashMap<String, List<Item>> items = new HashMap<>();
         items.put("weapons", new ArrayList<>());
@@ -120,18 +79,14 @@ public class EquipmentDataParser {
         characterEquipment.get("Armor").get("items").forEach(item -> {
             items.get("armor").add(new Item(item.asText()));
         });
-
-
         String commonstr = test("common", items);
         String weaponstr = test("weapons", items);
         String armorstr = test("armor", items);
-
         HashMap<String, String> map = new HashMap<>();
         map.put("common", commonstr);
         map.put("weapons", weaponstr);
         map.put("armor", armorstr);
-
-        return map;
+        return  map;
     }
 
 
