@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class Application {
@@ -36,7 +37,7 @@ public class Application {
                 CharacterData characterData = new CharacterData();
                 try {
                     characterData.setCharacterClass(new MagicUser());
-                    HashMap<String, String> equipment = parser.generateEquipment(characterData);
+                    Map<String, String> equipment = parser.generateEquipment(characterData);
                     characterData.setAdventureEquipment(equipment);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -51,8 +52,8 @@ public class Application {
                         .addField("Saving throws", characterData.getCharacterClass().getSavingThrows().toString(), true)
                         .addField("Abilities", characterData.getCharacterClass().getAbilities().toString(), true)
                         //.addField("Equipment", characterData.getAdventureEquipment().get("common"), false)
-                        //.addField("Armor", characterData.getAdventureEquipment().get("armor"), false)
-                        //.addField("Weapons", characterData.getAdventureEquipment().get("weapons"), false)
+                        .addField("Armor", characterData.getAdventureEquipment().get("Armor"), false)
+                        .addField("Weapons", characterData.getAdventureEquipment().get("Weapons"), false)
                 ).block();
             }
         });

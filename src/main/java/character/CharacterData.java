@@ -9,9 +9,7 @@ import generator.Generator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +19,7 @@ public class CharacterData {
 
     private CharacterClass characterClass =  ClassDefiner.define();
     private Characteristics characteristics = new Generator().getCharacteristics();
-    private HashMap<String, String> adventureEquipment = new HashMap<>();
+    private Map<String, String> adventureEquipment;
     private int hitPoints = roller.dN(characterClass.getHitDice()) + characteristics.getConstitutionModifier();
 
     @Override

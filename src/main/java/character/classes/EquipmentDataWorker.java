@@ -21,10 +21,10 @@ public class EquipmentDataWorker {
     private static final DiceRoller roller = new DiceRoller();
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static JsonNode getDagger(JsonNode equipment) {
+    public static ArrayNode getDagger(JsonNode equipment) {
         List<JsonNode> meleeWeapons = getItemsOfType("melee", equipment.get("weapons"));
         List<JsonNode> dagger = meleeWeapons.stream().filter(item -> item.get("name").asText().equals("Dagger")).collect(Collectors.toList());
-        return dagger.get(0);
+        return mapper.createArrayNode().add(dagger.get(0));
     }
 
     public static JsonNode getSomeArmor(JsonNode equipment) {
