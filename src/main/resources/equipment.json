@@ -154,10 +154,14 @@
     }
   ],
   "thief": [
-
+    {
+      "name": "Thief tools"
+    }
   ],
   "magic-user": [
-
+    {
+      "name": "Spell book"
+    }
   ],
   "halfling": [
 

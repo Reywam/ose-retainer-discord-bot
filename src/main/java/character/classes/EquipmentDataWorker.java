@@ -153,14 +153,19 @@ public class EquipmentDataWorker {
 
     public JsonNode getArmorOfSomeType(List<String> types) {
         JsonNode armor = equipment.get("armor");
-
-        int armorTypeNumber = roller.dN(types.size() - 1);
         List<JsonNode> armors = new ArrayList<>();
-        types.forEach(type -> {
-            armors.addAll(getItemsOfType(type, armor));
-        });
+        if(types.size() > 1) {
+            int armorTypeNumber = roller.dN(types.size() - 1);
+            types.forEach(type -> {
+                armors.addAll(getItemsOfType(type, armor));
+            });
 
-        return armors.get(armorTypeNumber);
+            return armors.get(armorTypeNumber);
+        }
+        else {
+            armors.addAll(getItemsOfType(types.get(0), armor));
+            return armors.get(0);
+        }
     }
 
     public List<JsonNode> getItemsOfType(String type, JsonNode items) {
