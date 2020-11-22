@@ -35,10 +35,12 @@ public class EquipmentDataParser {
     private Map<String, String> equipmentToStringMap(JsonNode equipment) {
         JsonNode weapons = equipment.get("Weapons");
         JsonNode armor = equipment.get("Armor");
+        JsonNode common = equipment.get("Common");
 
         HashMap<String, String> data = new HashMap<>();
         data.put("Weapons", join(weapons));
         data.put("Armor", join(armor));
+        data.put("Common", join(common));
 
         return data;
     }

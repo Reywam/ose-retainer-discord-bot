@@ -15,6 +15,7 @@ public class ThiefEquipmentStrategy implements EquipmentStrategy {
         ArrayNode weapons = EquipmentDataWorker.getSimpleWeapons(equipment);
         JsonNode armor = EquipmentDataWorker.getLightArmor(equipment);
         // TODO Get thief tools
-        return EquipmentDataWorker.aggregateEquipment(weapons, armor);
+        ArrayNode common = EquipmentDataWorker.getBasicItems(equipment);
+        return EquipmentDataWorker.aggregateEquipment(weapons, armor, common);
     }
 }

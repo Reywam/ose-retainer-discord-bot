@@ -20,8 +20,10 @@ public class FighterEquipmentStrategy implements EquipmentStrategy {
         ArrayNode weapons = meleeWeapons.addAll(missileWeapons);
         JsonNode armor = EquipmentDataWorker.getArmorOfSomeType(Arrays.asList("medium", "heavy"), equipment);
 
+        ArrayNode common = EquipmentDataWorker.getBasicItems(equipment);
+
         // TODO Get shield if have not two-handed weapon
-        return EquipmentDataWorker.aggregateEquipment(weapons, armor);
+        return EquipmentDataWorker.aggregateEquipment(weapons, armor, common);
 
 
     }

@@ -8,11 +8,11 @@ import generator.DiceRoller;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @NoArgsConstructor
 @Data
@@ -20,6 +20,31 @@ public class EquipmentDataWorker {
 
     private static final DiceRoller roller = new DiceRoller();
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final int COUNT_OF_ADDITIONAL_COMMON_ITEMS = 4;
+
+    public static ArrayNode getBasicItems(JsonNode equipment) {
+        ArrayNode common = getCommonItems(equipment);
+        ArrayNode additional = getAdditionalCommonItems(equipment);
+        return common.addAll(additional);
+    }
+
+    private static ArrayNode getAdditionalCommonItems(JsonNode equipment) {
+        ArrayNode additionalCommonItems = (ArrayNode) equipment.get("additional_common");
+
+        int rollCount = additionalCommonItems.size() - 1;
+        ArrayNode additionalCharacterItems = mapper.createArrayNode();
+
+        for(int i = 0; i < COUNT_OF_ADDITIONAL_COMMON_ITEMS; i++) {
+            int itemId = roller.dN(rollCount);
+            additionalCharacterItems.add(additionalCommonItems.get(itemId));
+        }
+
+        return additionalCharacterItems;
+    }
+
+    private static ArrayNode getCommonItems(JsonNode equipment) {
+        return (ArrayNode) equipment.get("common");
+    }
 
     public static ArrayNode getDagger(JsonNode equipment) {
         List<JsonNode> meleeWeapons = getItemsOfType("melee", equipment.get("weapons"));
@@ -43,12 +68,12 @@ public class EquipmentDataWorker {
         return getNWeaponsOfType(1, "missile", equipment);
     }
 
-    public static JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor/*, JsonNode common*/) {
+    public static JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor, JsonNode common) {
         ObjectNode equipment = mapper.createObjectNode();
 
         equipment.set("Weapons", weapons);
         equipment.set("Armor", armor);
-        /*equipment.set("Common", common);*/
+        equipment.set("Common", common);
 
         return equipment;
     }

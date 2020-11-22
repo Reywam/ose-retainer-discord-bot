@@ -12,6 +12,7 @@ public class DiceRoller {
         return ThreadLocalRandom.current().nextInt(1, max + 1);
     }
 
+
     public int d2() {return dN(2);}
 
     public int d4() {
@@ -30,4 +31,5 @@ public class DiceRoller {
         return d6() + d6() + d6();
     }
 
+    public int d12() { return dN(12);}
 }

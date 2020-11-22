@@ -1,22 +1,50 @@
 {
-  "common": [
-    {"name": "Backpack",
-      "properties": ["common"]
+  "common" : [
+    {
+      "name": "Backpack",
+      "properties": []
     },
-    {"name": "Iron spikes (12)",
-      "properties": ["common"]},
-    {"name": "Lantern",
-      "properties": ["common"]},
-    {"name": "Oil (1 flask)",
-      "properties": ["common"]},
-    {"name": "Rations (iron, 7 days)",
-      "properties": ["common"]},
-    {"name": "Rope (50’)",
-      "properties": ["common"]},
-    {"name": "Sack (small)",
-      "properties": ["common"]},
-    {"name": "Waterskin",
-      "properties": ["common"]}
+    {
+      "name": "Torch(6)",
+      "properties": []
+    },
+    {
+      "name": "Flint & steel",
+      "properties": []
+    }
+  ],
+
+  "additional_common": [
+    {
+      "name": "Crowbar"
+    },
+    {
+      "name": "Hammer(small)"
+    },
+    {
+      "name": "Iron spikes(12)"
+    },
+    {
+      "name": "Iron rations(7)"
+    },
+    {
+      "name": "Waterskin"
+    },
+    {
+      "name": "Rope(50ft)"
+    },
+    {
+      "name": "Lantern and 3 flasks of oil"
+    },
+    {
+      "name": "Ink, pen, five sheets of paper"
+    },
+    {
+      "name": "Piece of chalk(10)"
+    },
+    {
+      "name": "Small sack"
+    }
   ],
 
   "armor": [

@@ -36,7 +36,7 @@ public class Application {
                 final MessageChannel channel = message.getChannel().block();
                 CharacterData characterData = new CharacterData();
                 try {
-                    characterData.setCharacterClass(new MagicUser());
+                    characterData.setCharacterClass(new Cleric());
                     Map<String, String> equipment = parser.generateEquipment(characterData);
                     characterData.setAdventureEquipment(equipment);
                 } catch (IOException e) {
@@ -51,7 +51,7 @@ public class Application {
                         .addField("Characteristics", characterData.getCharacteristics().toString(), true)
                         .addField("Saving throws", characterData.getCharacterClass().getSavingThrows().toString(), true)
                         .addField("Abilities", characterData.getCharacterClass().getAbilities().toString(), true)
-                        //.addField("Equipment", characterData.getAdventureEquipment().get("common"), false)
+                        .addField("Common", characterData.getAdventureEquipment().get("Common"), false)
                         .addField("Armor", characterData.getAdventureEquipment().get("Armor"), false)
                         .addField("Weapons", characterData.getAdventureEquipment().get("Weapons"), false)
                 ).block();
