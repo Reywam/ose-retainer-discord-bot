@@ -15,6 +15,7 @@ public class HalflingEquipmentStrategy implements EquipmentStrategy {
         ArrayNode weapons = worker.getSimpleWeapons();
         JsonNode armor = worker.getSomeArmor();
         ArrayNode common = worker.getBasicItems();
-        return worker.aggregateEquipment(weapons, armor, common);
+        JsonNode classItems = worker.getClassItems("halfling");
+        return worker.aggregateEquipment(weapons, armor, common, classItems);
     }
 }

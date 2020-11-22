@@ -41,11 +41,13 @@ public class EquipmentDataWorker {
         JsonNode weapons = equipment.get("Weapons");
         JsonNode armor = equipment.get("Armor");
         JsonNode common = equipment.get("Common");
+        JsonNode special = equipment.get("Special");
 
         HashMap<String, String> data = new HashMap<>();
         data.put("Weapons", join(weapons));
         data.put("Armor", join(armor));
         data.put("Common", join(common));
+        data.put("Special", join(special));
 
         return data;
     }
@@ -124,12 +126,13 @@ public class EquipmentDataWorker {
         return getNWeaponsOfType(1, "missile");
     }
 
-    public JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor, JsonNode common) {
+    public JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor, JsonNode common, JsonNode classItems) {
         ObjectNode equipment = mapper.createObjectNode();
 
         equipment.set("Weapons", weapons);
         equipment.set("Armor", armor);
         equipment.set("Common", common);
+        equipment.set("Special", classItems);
 
         return equipment;
     }

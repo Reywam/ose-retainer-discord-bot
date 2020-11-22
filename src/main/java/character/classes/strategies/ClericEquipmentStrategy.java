@@ -25,7 +25,6 @@ public class ClericEquipmentStrategy implements EquipmentStrategy {
         // TODO Get one blunt missile weapon
             // TODO Get ammo if missile needs ammo
         JsonNode armor = worker.getSomeArmor();
-        // TODO Get holy symbol
-        return worker.aggregateEquipment(meleeWeapon, armor, common);
+        return worker.aggregateEquipment(meleeWeapon, armor, common, classItems);
     }
 }

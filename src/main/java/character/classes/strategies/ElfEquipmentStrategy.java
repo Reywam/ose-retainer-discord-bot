@@ -17,6 +17,7 @@ public class ElfEquipmentStrategy implements EquipmentStrategy {
         ArrayNode weapons = worker.getSimpleWeapons();
         JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("heavy", "medium", "light"));
         ArrayNode common = worker.getBasicItems();
-        return worker.aggregateEquipment(weapons, armor, common);
+        JsonNode classItems = worker.getClassItems("elf");
+        return worker.aggregateEquipment(weapons, armor, common, classItems);
     }
 }

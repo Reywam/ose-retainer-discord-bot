@@ -17,6 +17,7 @@ public class DwarfEquipmentStrategy implements EquipmentStrategy {
         ArrayNode weapons = worker.getSimpleWeapons();
         JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("heavy", "medium"));
         ArrayNode common = worker.getBasicItems();
-        return worker.aggregateEquipment(weapons, armor, common);
+        JsonNode classItems = worker.getClassItems("dwarf");
+        return worker.aggregateEquipment(weapons, armor, common, classItems);
     }
 }

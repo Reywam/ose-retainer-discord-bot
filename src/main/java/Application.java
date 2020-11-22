@@ -51,6 +51,7 @@ public class Application {
                         .addField("Saving throws", characterData.getCharacterClass().getSavingThrows().toString(), true)
                         .addField("Abilities", characterData.getCharacterClass().getAbilities().toString(), true)
                         .addField("Common", characterData.getAdventureEquipment().get("Common"), false)
+                        .addField("Special", characterData.getAdventureEquipment().get("Special"), false)
                         .addField("Armor", characterData.getAdventureEquipment().get("Armor"), false)
                         .addField("Weapons", characterData.getAdventureEquipment().get("Weapons"), false)
                 ).block();

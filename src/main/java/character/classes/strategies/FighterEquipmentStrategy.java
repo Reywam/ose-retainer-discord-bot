@@ -23,7 +23,8 @@ public class FighterEquipmentStrategy implements EquipmentStrategy {
         ArrayNode common = worker.getBasicItems();
 
         // TODO Get shield if have not two-handed weapon
-        return worker.aggregateEquipment(weapons, armor, common);
+        JsonNode classItems = worker.getClassItems("fighter");
+        return worker.aggregateEquipment(weapons, armor, common, classItems);
 
 
     }
