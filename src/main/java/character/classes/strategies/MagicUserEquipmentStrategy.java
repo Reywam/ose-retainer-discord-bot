@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class MagicUserEquipmentStrategy implements EquipmentStrategy {
+public class MagicUserEquipmentStrategy extends CommonEquipmentStrategy {
     @Override
     public JsonNode getEquipment(EquipmentDataWorker worker) {
         JsonNode dagger = worker.getDagger();
@@ -20,7 +20,7 @@ public class MagicUserEquipmentStrategy implements EquipmentStrategy {
         ObjectNode items = new ObjectMapper().createObjectNode();
         items.set("Weapons", dagger);
         items.set("Special", classItems);
-        items.set("Common", commonItems);
+        items.set("Common", super.getEquipment(worker));
         return items;
     }
 }

@@ -32,4 +32,6 @@ public class DiceRoller {
     }
 
     public int d12() { return dN(12);}
+
+    public int d20() {return  dN(20);}
 }

@@ -37,6 +37,13 @@ public class EquipmentDataWorker {
         }
     };
 
+    public JsonNode getMoney() {
+        int money = roller.d20();
+        ObjectNode moneyNode = mapper.createObjectNode();
+        moneyNode.put("name", money + "gp");
+        return moneyNode;
+    }
+
     private Map<String, String> equipmentToStringMap(JsonNode equipment) {
         JsonNode weapons = equipment.get("Weapons");
         JsonNode armor = equipment.get("Armor");
@@ -53,7 +60,7 @@ public class EquipmentDataWorker {
     }
 
     private String join(JsonNode equipment) {
-        if(isNull(equipment)) return "Has no item";
+        if(isNull(equipment) || equipment.asText().equals("")) return "Has no item";
         StringJoiner joiner = new StringJoiner(" ");
         if(equipment.isArray()) {
             equipment.forEach(node -> joiner.add(node.get("name").asText()));

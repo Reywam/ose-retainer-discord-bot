@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Data
 @NoArgsConstructor
-public class FighterEquipmentStrategy implements EquipmentStrategy {
+public class FighterEquipmentStrategy extends CommonEquipmentStrategy {
     private final ObjectMapper mapper = new ObjectMapper();
     @Override
     public JsonNode getEquipment(EquipmentDataWorker worker) {
@@ -19,13 +19,8 @@ public class FighterEquipmentStrategy implements EquipmentStrategy {
         ArrayNode missileWeapons = worker.getMissileWeapon();
         ArrayNode weapons = meleeWeapons.addAll(missileWeapons);
         JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("medium", "heavy"));
-
-        ArrayNode common = worker.getBasicItems();
-
-        // TODO Get shield if have not two-handed weapon
+        JsonNode common = super.getEquipment(worker);
         JsonNode classItems = worker.getClassItems("fighter");
         return worker.aggregateEquipment(weapons, armor, common, classItems);
-
-
     }
 }
