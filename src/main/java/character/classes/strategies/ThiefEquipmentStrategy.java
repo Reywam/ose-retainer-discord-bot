@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class ThiefEquipmentStrategy extends CommonEquipmentStrategy {
     @Override
     public JsonNode getEquipment(EquipmentDataWorker worker) {
-        // TODO Get one one-handed melee weapon
         ArrayNode weapons = worker.getSimpleWeapons();
         JsonNode armor = worker.getLightArmor();
         JsonNode common = super.getEquipment(worker);

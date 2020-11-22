@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-
 @Data
 @NoArgsConstructor
 public class DwarfEquipmentStrategy extends CommonEquipmentStrategy {

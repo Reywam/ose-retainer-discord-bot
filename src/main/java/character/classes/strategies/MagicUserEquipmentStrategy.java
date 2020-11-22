@@ -16,7 +16,6 @@ public class MagicUserEquipmentStrategy extends CommonEquipmentStrategy {
         JsonNode dagger = worker.getDagger();
         // TODO Get more common or special items
         ArrayNode classItems = worker.getClassItems("magic-user");
-        ArrayNode commonItems = worker.getBasicItems();
         ObjectNode items = new ObjectMapper().createObjectNode();
         items.set("Weapons", dagger);
         items.set("Special", classItems);

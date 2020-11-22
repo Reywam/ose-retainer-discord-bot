@@ -18,7 +18,7 @@ public class FighterEquipmentStrategy extends CommonEquipmentStrategy {
         ArrayNode meleeWeapons = worker.getNWeaponsOfType(2, "melee");
         ArrayNode missileWeapons = worker.getMissileWeapon();
         ArrayNode weapons = meleeWeapons.addAll(missileWeapons);
-        JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("medium", "heavy"));
+        JsonNode armor = worker.getSomeArmor();
         JsonNode common = super.getEquipment(worker);
         JsonNode classItems = worker.getClassItems("fighter");
         return worker.aggregateEquipment(weapons, armor, common, classItems);
