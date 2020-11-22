@@ -14,16 +14,16 @@ import java.util.Arrays;
 public class FighterEquipmentStrategy implements EquipmentStrategy {
     private final ObjectMapper mapper = new ObjectMapper();
     @Override
-    public JsonNode getEquipment(JsonNode equipment) {
-        ArrayNode meleeWeapons = EquipmentDataWorker.getNWeaponsOfType(2, "melee", equipment);
-        ArrayNode missileWeapons = EquipmentDataWorker.getMissileWeapon(equipment);
+    public JsonNode getEquipment(EquipmentDataWorker worker) {
+        ArrayNode meleeWeapons = worker.getNWeaponsOfType(2, "melee");
+        ArrayNode missileWeapons = worker.getMissileWeapon();
         ArrayNode weapons = meleeWeapons.addAll(missileWeapons);
-        JsonNode armor = EquipmentDataWorker.getArmorOfSomeType(Arrays.asList("medium", "heavy"), equipment);
+        JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("medium", "heavy"));
 
-        ArrayNode common = EquipmentDataWorker.getBasicItems(equipment);
+        ArrayNode common = worker.getBasicItems();
 
         // TODO Get shield if have not two-handed weapon
-        return EquipmentDataWorker.aggregateEquipment(weapons, armor, common);
+        return worker.aggregateEquipment(weapons, armor, common);
 
 
     }

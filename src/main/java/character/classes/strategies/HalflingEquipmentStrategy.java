@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HalflingEquipmentStrategy implements EquipmentStrategy {
     @Override
-    public JsonNode getEquipment(JsonNode equipment) {
+    public JsonNode getEquipment(EquipmentDataWorker worker) {
         // TODO I dont know
-        ArrayNode weapons = EquipmentDataWorker.getSimpleWeapons(equipment);
-        JsonNode armor = EquipmentDataWorker.getSomeArmor(equipment);
-        ArrayNode common = EquipmentDataWorker.getBasicItems(equipment);
-        return EquipmentDataWorker.aggregateEquipment(weapons, armor, common);
+        ArrayNode weapons = worker.getSimpleWeapons();
+        JsonNode armor = worker.getSomeArmor();
+        ArrayNode common = worker.getBasicItems();
+        return worker.aggregateEquipment(weapons, armor, common);
     }
 }

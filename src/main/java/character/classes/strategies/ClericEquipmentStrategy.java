@@ -15,15 +15,17 @@ import java.util.Arrays;
 public class ClericEquipmentStrategy implements EquipmentStrategy {
     private final ObjectMapper mapper = new ObjectMapper();
     @Override
-    public JsonNode getEquipment(JsonNode equipment) {
+    public JsonNode getEquipment(EquipmentDataWorker worker) {
         // Holy symbol
         // , 1d20gp
-        JsonNode common = EquipmentDataWorker.getBasicItems(equipment);
-        ArrayNode meleeWeapon = EquipmentDataWorker.getNWeaponsOfType(1, "blunt", equipment);
+        JsonNode common = worker.getBasicItems();
+        JsonNode classItems = worker.getClassItems("cleric");
+        // TODO Get money
+        ArrayNode meleeWeapon = worker.getNWeaponsOfType(1, "blunt");
         // TODO Get one blunt missile weapon
             // TODO Get ammo if missile needs ammo
-        JsonNode armor = EquipmentDataWorker.getSomeArmor(equipment);
+        JsonNode armor = worker.getSomeArmor();
         // TODO Get holy symbol
-        return EquipmentDataWorker.aggregateEquipment(meleeWeapon, armor, common);
+        return worker.aggregateEquipment(meleeWeapon, armor, common);
     }
 }

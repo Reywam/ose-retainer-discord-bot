@@ -3,7 +3,6 @@ package character.classes.strategies;
 import character.classes.EquipmentDataWorker;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.sun.xml.internal.txw2.output.DataWriter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +12,11 @@ import java.util.Arrays;
 @NoArgsConstructor
 public class ElfEquipmentStrategy implements EquipmentStrategy {
     @Override
-    public JsonNode getEquipment(JsonNode equipment) {
+    public JsonNode getEquipment(EquipmentDataWorker worker) {
         // TODO Actually like a fighter strategy
-        ArrayNode weapons = EquipmentDataWorker.getSimpleWeapons(equipment);
-        JsonNode armor = EquipmentDataWorker.getArmorOfSomeType(Arrays.asList("heavy", "medium", "light"), equipment);
-        ArrayNode common = EquipmentDataWorker.getBasicItems(equipment);
-        return EquipmentDataWorker.aggregateEquipment(weapons, armor, common);
+        ArrayNode weapons = worker.getSimpleWeapons();
+        JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("heavy", "medium", "light"));
+        ArrayNode common = worker.getBasicItems();
+        return worker.aggregateEquipment(weapons, armor, common);
     }
 }

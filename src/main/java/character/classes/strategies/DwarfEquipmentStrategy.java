@@ -12,11 +12,11 @@ import java.util.Arrays;
 @NoArgsConstructor
 public class DwarfEquipmentStrategy implements EquipmentStrategy {
     @Override
-    public JsonNode getEquipment(JsonNode equipment) {
+    public JsonNode getEquipment(EquipmentDataWorker worker) {
         // TODO Something like a fighter but with restrictions
-        ArrayNode weapons = EquipmentDataWorker.getSimpleWeapons(equipment);
-        JsonNode armor = EquipmentDataWorker.getArmorOfSomeType(Arrays.asList("heavy", "medium"), equipment);
-        ArrayNode common = EquipmentDataWorker.getBasicItems(equipment);
-        return EquipmentDataWorker.aggregateEquipment(weapons, armor, common);
+        ArrayNode weapons = worker.getSimpleWeapons();
+        JsonNode armor = worker.getArmorOfSomeType(Arrays.asList("heavy", "medium"));
+        ArrayNode common = worker.getBasicItems();
+        return worker.aggregateEquipment(weapons, armor, common);
     }
 }

@@ -149,7 +149,9 @@
 
   ],
   "cleric": [
-
+    {
+      "name": "Holy symbol"
+    }
   ],
   "thief": [
 

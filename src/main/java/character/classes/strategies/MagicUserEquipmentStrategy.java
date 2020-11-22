@@ -3,7 +3,6 @@ package character.classes.strategies;
 import character.classes.EquipmentDataWorker;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MagicUserEquipmentStrategy implements EquipmentStrategy {
     @Override
-    public JsonNode getEquipment(JsonNode equipment) {
-        JsonNode dagger = EquipmentDataWorker.getDagger(equipment);
+    public JsonNode getEquipment(EquipmentDataWorker worker) {
+        JsonNode dagger = worker.getDagger();
         // TODO Get more common or special items
         return new ObjectMapper().createObjectNode().set("Weapons", dagger);
     }

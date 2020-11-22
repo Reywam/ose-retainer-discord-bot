@@ -27,8 +27,7 @@ public class Application {
         final DiscordClient client = DiscordClient.create(token);
         final GatewayDiscordClient gateway = client.login().block();
 
-        EquipmentDataParser parser = new EquipmentDataParser();
-
+        EquipmentDataWorker worker = new EquipmentDataWorker();
 
         gateway.on(MessageCreateEvent.class).subscribe(event -> {
             final Message message = event.getMessage();
@@ -37,7 +36,7 @@ public class Application {
                 CharacterData characterData = new CharacterData();
                 try {
                     characterData.setCharacterClass(new Cleric());
-                    Map<String, String> equipment = parser.generateEquipment(characterData);
+                    Map<String, String> equipment = worker.generateEquipment(characterData);
                     characterData.setAdventureEquipment(equipment);
                 } catch (IOException e) {
                     e.printStackTrace();

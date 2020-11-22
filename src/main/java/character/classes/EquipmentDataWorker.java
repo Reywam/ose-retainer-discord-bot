@@ -1,34 +1,90 @@
 package character.classes;
 
+import character.CharacterData;
+import character.EquipmentDataParser;
+import character.classes.strategies.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import generator.DiceRoller;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
+import static java.util.Objects.isNull;
+
 @Data
 public class EquipmentDataWorker {
 
-    private static final DiceRoller roller = new DiceRoller();
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private static final int COUNT_OF_ADDITIONAL_COMMON_ITEMS = 4;
+    private final DiceRoller roller = new DiceRoller();
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final int COUNT_OF_ADDITIONAL_COMMON_ITEMS = 4;
+    private final EquipmentDataParser parser = new EquipmentDataParser();
+    private JsonNode equipment;
 
-    public static ArrayNode getBasicItems(JsonNode equipment) {
-        ArrayNode common = getCommonItems(equipment);
-        ArrayNode additional = getAdditionalCommonItems(equipment);
+    private final Map<Class, EquipmentStrategy> strategies = new HashMap<Class, EquipmentStrategy>() {
+        {
+            put(Fighter.class, new FighterEquipmentStrategy());
+            put(Cleric.class, new ClericEquipmentStrategy());
+            put(MagicUser.class, new MagicUserEquipmentStrategy());
+            put(Thief.class, new ThiefEquipmentStrategy());
+            put(Halfling.class, new HalflingEquipmentStrategy());
+            put(Dwarf.class, new DwarfEquipmentStrategy());
+            put(Elf.class, new ElfEquipmentStrategy());
+        }
+    };
+
+    private Map<String, String> equipmentToStringMap(JsonNode equipment) {
+        JsonNode weapons = equipment.get("Weapons");
+        JsonNode armor = equipment.get("Armor");
+        JsonNode common = equipment.get("Common");
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("Weapons", join(weapons));
+        data.put("Armor", join(armor));
+        data.put("Common", join(common));
+
+        return data;
+    }
+
+    private String join(JsonNode equipment) {
+        if(isNull(equipment)) return "Has no item";
+        StringJoiner joiner = new StringJoiner(" ");
+        if(equipment.isArray()) {
+            equipment.forEach(node -> joiner.add(node.get("name").asText()));
+        }
+        else {
+            joiner.add(equipment.get("name").asText());
+        }
+
+        return joiner.toString();
+    }
+
+    public Map<String, String> generateEquipment(CharacterData data) throws IOException {
+        EquipmentStrategy strategy = strategies.get(data.getCharacterClass().getClass());
+        JsonNode characterEquipment = strategy.getEquipment(this);
+        return equipmentToStringMap(characterEquipment);
+    }
+
+    public EquipmentDataWorker() throws IOException {
+        equipment = parser.parse();
+    }
+
+
+    public ArrayNode getClassItems(String className) {
+        return (ArrayNode) equipment.get(className.toLowerCase());
+    }
+
+    public ArrayNode getBasicItems() {
+        ArrayNode common = getCommonItems();
+        ArrayNode additional = getAdditionalCommonItems();
         return common.addAll(additional);
     }
 
-    private static ArrayNode getAdditionalCommonItems(JsonNode equipment) {
+    private ArrayNode getAdditionalCommonItems() {
         ArrayNode additionalCommonItems = (ArrayNode) equipment.get("additional_common");
 
         int rollCount = additionalCommonItems.size() - 1;
@@ -42,33 +98,33 @@ public class EquipmentDataWorker {
         return additionalCharacterItems;
     }
 
-    private static ArrayNode getCommonItems(JsonNode equipment) {
+    private ArrayNode getCommonItems() {
         return (ArrayNode) equipment.get("common");
     }
 
-    public static ArrayNode getDagger(JsonNode equipment) {
+    public ArrayNode getDagger() {
         List<JsonNode> meleeWeapons = getItemsOfType("melee", equipment.get("weapons"));
         List<JsonNode> dagger = meleeWeapons.stream().filter(item -> item.get("name").asText().equals("Dagger")).collect(Collectors.toList());
         return mapper.createArrayNode().add(dagger.get(0));
     }
 
-    public static JsonNode getSomeArmor(JsonNode equipment) {
-        return getArmorOfSomeType(Arrays.asList("light", "medium", "heavy"), equipment);
+    public JsonNode getSomeArmor() {
+        return getArmorOfSomeType(Arrays.asList("light", "medium", "heavy"));
     }
 
-    public static ArrayNode getSimpleWeapons(JsonNode equipment) {
-        return getMeleeWeapon(equipment).addAll(getMissileWeapon(equipment));
+    public ArrayNode getSimpleWeapons() {
+        return getMeleeWeapon().addAll(getMissileWeapon());
     }
 
-    public static ArrayNode getMeleeWeapon(JsonNode equipment) {
-        return getNWeaponsOfType(1, "melee", equipment);
+    public ArrayNode getMeleeWeapon() {
+        return getNWeaponsOfType(1, "melee");
     }
 
-    public static ArrayNode getMissileWeapon(JsonNode equipment) {
-        return getNWeaponsOfType(1, "missile", equipment);
+    public ArrayNode getMissileWeapon() {
+        return getNWeaponsOfType(1, "missile");
     }
 
-    public static JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor, JsonNode common) {
+    public JsonNode aggregateEquipment(ArrayNode weapons, JsonNode armor, JsonNode common) {
         ObjectNode equipment = mapper.createObjectNode();
 
         equipment.set("Weapons", weapons);
@@ -78,7 +134,7 @@ public class EquipmentDataWorker {
         return equipment;
     }
 
-    public static ArrayNode getNWeaponsOfType(int countOfWeapons, String type, JsonNode equipment) {
+    public ArrayNode getNWeaponsOfType(int countOfWeapons, String type) {
         JsonNode weapons = equipment.get("weapons");
         List<JsonNode> typeWeapons = getItemsOfType(type, weapons);
         ArrayNode listOfItems = mapper.createArrayNode();
@@ -88,11 +144,11 @@ public class EquipmentDataWorker {
         return listOfItems;
     }
 
-    public static JsonNode getLightArmor(JsonNode equipment) {
-        return getArmorOfSomeType(Arrays.asList("light"), equipment);
+    public JsonNode getLightArmor() {
+        return getArmorOfSomeType(Arrays.asList("light"));
     }
 
-    public static JsonNode getArmorOfSomeType(List<String> types, JsonNode equipment) {
+    public JsonNode getArmorOfSomeType(List<String> types) {
         JsonNode armor = equipment.get("armor");
 
         int armorTypeNumber = roller.dN(types.size() - 1);
@@ -104,7 +160,7 @@ public class EquipmentDataWorker {
         return armors.get(armorTypeNumber);
     }
 
-    public static List<JsonNode> getItemsOfType(String type, JsonNode items) {
+    public List<JsonNode> getItemsOfType(String type, JsonNode items) {
         List<JsonNode> weaponsOfType = new ArrayList<>();
         items.forEach(weapon -> {
             JsonNode properties = weapon.get("properties");
